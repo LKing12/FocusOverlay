@@ -5,7 +5,7 @@
 *   /_/      \____/  
 *   Focus Overlay
 * 
-*  Version: 0.0.1
+*  Version: 0.7.0
 *  Author: Maurice Mahan
 *  License: MIT
 *  Repo: https://github.com/MauriceMahan/FocusOverlay
@@ -91,7 +91,7 @@
                 window.addEventListener("keydown", _.onKeyDownHandler, false);
 
                 if (_.options.inactiveOnClick) {
-                    window.addEventListener("click", _.stop, false);
+                    window.addEventListener("mousedown", _.stop, false);
                 }
             }
 
@@ -255,7 +255,7 @@
             // Remove event listeners
             window.removeEventListener("focus", _.onFocusHandler, true);
             window.removeEventListener("keydown", _.onKeyDownHandler, false);
-            window.removeEventListener("click", _.stop, false);
+            window.removeEventListener("mousedown", _.stop, false);
 
             _.$el.trigger("foDestroyed", [_, _.$previousTarget, $target]);
         },

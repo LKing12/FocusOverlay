@@ -5,25 +5,37 @@
 *   /_/      \____/  
 *   Focus Overlay
 * 
-*  Version: 0.0.1
+*  Version: 0.7.0
 *  Author: Maurice Mahan
 *  License: MIT
 *  Repo: https://github.com/MauriceMahan/FocusOverlay
 */
 
 #focus-overlay {
-    opacity: 0;
-    box-shadow: 0 0 2px 3px #78aeda, 0 0 2px #78aeda inset;
-    border-radius: 2px;
-    transition: all 0.2s cubic-bezier(0,1,0,1);
     display: none;
+    position: relative;
+    border-radius: 2px;
+    box-shadow: 0 0 2px 3px #78aeda, 0 0 2px #78aeda inset;
+    transition: all 0.2s cubic-bezier(0, 1, 0, 1);
+}
+
+#focus-overlay::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    box-shadow: 0 0 2px 3px #008cff, 0 0 2px #008cff inset;
+    transition: all 0.1s ease-out;
 }
 
 #focus-overlay.focus-overlay-active {
     display: block;
 }
 
-#focus-overlay.focus-overlay-animating {
+#focus-overlay.focus-overlay-animating:after {
     opacity: 1;
 }
 

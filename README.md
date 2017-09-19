@@ -15,7 +15,7 @@ To install copy the files from the `dist` folder into your project:
 <!-- End of <body> -->
 <script type="text/javascript" src="/dist/focusOverlay.min.js"></script>
 ```
-The CSS file is so small you might just want to copy the contents of it from the `src` folder directly into your project's main CSS.
+The CSS is small enough to copy directly from the `src` folder into your project's main CSS.
 
 ## Usage
 

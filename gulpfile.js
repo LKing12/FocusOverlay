@@ -13,8 +13,7 @@ gulp.task("css", function (cb) {
             cascade: false
         }),
         minify({
-            compatibility: "ie9",
-            keepSpecialComments: '1'
+            compatibility: "ie9"
         }),
         rename({ suffix: ".min" }),
         gulp.dest("./dist")
