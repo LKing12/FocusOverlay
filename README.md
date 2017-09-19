@@ -52,7 +52,7 @@ The default `options` are:
 ## Events
 
 ```js
-$("body").on("foInit", function(event, ...) {
+$(".site-wrapper").on("foInit", function(event, ...) {
     // Do something
 }).focusOverlay();
 ```
@@ -62,8 +62,17 @@ Note that bindings need to be added *before* the plugin is called.
 Event | Params | Description
 ------ | -------- | -----------
 foInit | event, focusOverlay | Fires after focusOverlay initializes
-foBeforeMove | event, focusOverlay, $previousTarget, $target | Fires before focusOverlay begins its duration timer.
-foAfterMove | event, focusOverlay, $previousTarget, $target | Fires after focusOverlay's duration timer is finished.
+foBeforeMove | event, focusOverlay, $previousTarget, $target | Fires before focusOverlay begins its duration timer
+foAfterMove | event, focusOverlay, $previousTarget, $target | Fires after focusOverlay's duration timer is finished
+foDestroyed | event, focusOverlay, $previousTarget, $target | Fires after focusOverlay is destroyed
+
+## Methods
+
+So far the only method available is `destroy`.
+
+```js
+$(".site-wrapper").focusOverlay("destroy");
+```
 
 ## Data Attribute Settings
 

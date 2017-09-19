@@ -256,6 +256,8 @@
             window.removeEventListener("focus", _.onFocusHandler, true);
             window.removeEventListener("keydown", _.onKeyDownHandler, false);
             window.removeEventListener("click", _.stop, false);
+
+            _.$el.trigger("foDestroyed", [_, _.$previousTarget, $target]);
         },
 
         /**
