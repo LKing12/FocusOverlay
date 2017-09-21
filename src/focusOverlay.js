@@ -259,7 +259,7 @@
             window.removeEventListener("keydown", _.onKeyDownHandler, false);
             window.removeEventListener("mousedown", _.stop, false);
 
-            _.$el.trigger("foDestroyed", [_, _.$previousTarget, $target]);
+            _.$el.trigger("foDestroyed", [_]);
         },
 
         /**

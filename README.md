@@ -64,7 +64,7 @@ Event | Params | Description
 foInit | event, focusOverlay | Fires after focusOverlay initializes
 foBeforeMove | event, focusOverlay, $previousTarget, $target | Fires before focusOverlay begins its duration timer
 foAfterMove | event, focusOverlay, $previousTarget, $target | Fires after focusOverlay's duration timer is finished
-foDestroyed | event, focusOverlay, $previousTarget, $target | Fires after focusOverlay is destroyed
+foDestroyed | event, focusOverlay | Fires after focusOverlay is destroyed
 
 ## Methods
 
