@@ -5,7 +5,7 @@
 *   /_/      \____/  
 *   Focus Overlay
 * 
-*  Version: 0.7.0
+*  Version: 0.7.1
 *  Author: Maurice Mahan
 *  License: MIT
 *  Repo: https://github.com/MauriceMahan/FocusOverlay
@@ -157,16 +157,19 @@
 
             _.cleanup();
 
-            /**
-             * If the target has a focus data attribute
-             * then focus that element instead. Otherwise
-             * check if the element is supposed to be
-             * ignored. Otherwise just use the focused element.
-             */
+            // If the focused element has data-focus then assign a new $target
             if ($focus.data("focus")) {
                 _.$target = $($focus.data("focus"))
+
+            // If the focused element has data-focus-label then focus the associated label
+            } else if ($focus.is("[data-focus-label]")) {
+                _.$target = $("[for='" + $focus.attr("id") + "']");
+
+            // If the focused element has data-ignore then stop
             } else if ($focus.data("focus-ignore")) {
                 return;
+
+            // If none of the above is true then set the target as the currently focused element
             } else {
                 _.$target = $focus;
             }
@@ -210,7 +213,6 @@
                     height = rect.height,
                     left = rect.left,
                     top = rect.top;
-
 
                 _.$focusBox.addClass(_.options.animatingClass)
                     .addClass(_.options.activeClass)

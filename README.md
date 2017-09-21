@@ -76,17 +76,26 @@ $(".site-wrapper").focusOverlay("destroy");
 
 ## Data Attribute Settings
 
-In some cases you might want focusOverlay to ignore certain elements, or focus **other** elements instead. There is the `data-focus` and `data-focus-ignore` available.
+In some cases you might want focusOverlay to ignore certain elements, or focus **other** elements instead. There are a few options available:
 
 ### Example usage for `data-focus`:
 
 ```html
-<label for="stylized-checkbox" class="rounded-checkbox">
-<input id="stylized-checkbox" type="checkbox" class="visually-hidden" data-focus=".rounded-checkbox">
+<div id="input-wrapper">
+    <input type="text" data-focus="#input-wrapper">
+</div>
 ```
 
-In this example when the user focuses the input, focusOverlay will instead target the label. The `data-focus` attribute accepts a selector jQuery can understand.
+In this example when the user focuses the input, focusOverlay will instead target the wrapper. The `data-focus` attribute accepts a jQuery selector string.
 
+### Example usage for `data-focus-label`:
+
+```html
+<label for="stylized-checkbox" class="rounded-checkbox">
+<input id="stylized-checkbox" type="checkbox" class="visually-hidden" data-focus-label>
+```
+
+In this example when the user focuses the input, focusOverlay will instead target its associated label.
 
 ### Example usage for `data-focus-ignore`:
 
