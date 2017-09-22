@@ -51,13 +51,16 @@ The default `options` are:
 
 ## Events
 
+Note that bindings need to be added *before* the plugin is called. An example:
+
 ```js
-$(".site-wrapper").on("foInit", function(event, ...) {
-    // Do something
+// Overriding the focusOverlay target before the box moves
+$(".site-wrapper").on("foBeforeMove", function(event, focusOverlay, $previousTarget, $target) {
+    if ($target.is(".header-btn")) {
+        focusOverlay.$target = $(".header-btn.alt");
+    }
 }).focusOverlay();
 ```
-
-Note that bindings need to be added *before* the plugin is called.
 
 Event | Params | Description
 ------ | -------- | -----------

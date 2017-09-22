@@ -5,7 +5,7 @@
 *   /_/      \____/  
 *   Focus Overlay
 * 
-*  Version: 0.7.1
+*  Version: 0.7.2
 *  Author: Maurice Mahan
 *  License: MIT
 *  Repo: https://github.com/MauriceMahan/FocusOverlay
@@ -174,9 +174,8 @@
                 _.$target = $focus;
             }
 
-            _.$target.addClass(_.options.targetClass);
-
             clearTimeout(_.timeout);
+            _.$el.trigger("foBeforeMove", [_, _.$previousTarget, _.$target]);
             _.animateFocusBox(_.$target);
         },
 
@@ -199,6 +198,8 @@
         animateFocusBox: function($target) {
             var _ = this;
             
+            $target.addClass(_.options.targetClass);
+            
             /**
              * Check to see if what we're targetting is actually still there.
              * Then check to see if we're targetting a DOM element. There was
@@ -206,8 +207,6 @@
              * and throwing errors since you can't get the position values of those.
              */
             if ($target.length > 0 && $target[0] instanceof Element) {
-                _.$el.trigger("foBeforeMove", [_, _.$previousTarget, $target]);
-
                 var rect = _._getAbsoluteBoundingRect($target[0]),
                     width = rect.width,
                     height = rect.height,
