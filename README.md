@@ -94,7 +94,7 @@ In this example when the user focuses the input, focusOverlay will instead targe
 ### Example usage for `data-focus-label`:
 
 ```html
-<label for="stylized-checkbox" class="rounded-checkbox">
+<label for="stylized-checkbox" class="rounded-checkbox">Click me</label>
 <input id="stylized-checkbox" type="checkbox" class="visually-hidden" data-focus-label>
 ```
 
@@ -103,7 +103,7 @@ In this example when the user focuses the input, focusOverlay will instead targe
 ### Example usage for `data-focus-ignore`:
 
 ```html
-<a href="/info.html" data-focus-ignore="true">Really important information here!</a>
+<a href="/info.html" data-focus-ignore>Really important information here!</a>
 ```
 
 In this example focusOverlay will not target this element at all.

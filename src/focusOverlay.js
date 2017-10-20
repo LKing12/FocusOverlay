@@ -5,7 +5,7 @@
 *   /_/      \____/  
 *   Focus Overlay
 * 
-*  Version: 0.7.2
+*  Version: 0.7.3
 *  Author: Maurice Mahan
 *  License: MIT
 *  Repo: https://github.com/MauriceMahan/FocusOverlay
@@ -166,7 +166,7 @@
                 _.$target = $("[for='" + $focus.attr("id") + "']");
 
             // If the focused element has data-ignore then stop
-            } else if ($focus.data("focus-ignore")) {
+            } else if ($focus.is("[data-focus-ignore]")) {
                 return;
 
             // If none of the above is true then set the target as the currently focused element
@@ -269,7 +269,7 @@
          * scroll positions.
          * 
          * @param {HTMLElement} el HTML element
-         * @return {Event} Absolute bounding rect for _el_.
+         * @return {Object} Absolute bounding rect for _el_.
          */
         _getAbsoluteBoundingRect: function (el) {
             var _ = this,
