@@ -39,7 +39,7 @@
         // Browser globals
         factory(jQuery, window);
     }
-}(function($, window) { 
+}(function($, window) {
     /**
      * The plugin constructor
      * @param {DOM Element} element The DOM element where plugin is applied
@@ -159,7 +159,7 @@
 
             // If the focused element has data-focus then assign a new $target
             if ($focus.data("focus")) {
-                _.$target = $($focus.data("focus"))
+                _.$target = $($focus.data("focus")).first();
 
             // If the focused element has data-focus-label then focus the associated label
             } else if ($focus.is("[data-focus-label]")) {
