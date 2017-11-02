@@ -1,8 +1,8 @@
 {
   "name": "focus-overlay",
-  "version": "1.0.0",
+  "version": "0.7.4",
   "description": "Plugin for creating overlays on focused elements.",
-  "main": "index.js",
+  "main": "src/focusOverlay.js",
   "scripts": {
     "build": "gulp default",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -12,13 +12,13 @@
     "url": "git+https://github.com/MauriceMahan/FocusOverlay.git"
   },
   "keywords": [
-    "plugin",
     "focus",
     "overlay",
     "jQuery",
+    "accessibility",
+    "plugin",
     "javascript",
     "CSS",
-    "accessibility",
     "a11y"
   ],
   "author": "Maurice Mahan",

@@ -5,7 +5,7 @@
 *   /_/      \____/  
 *   Focus Overlay
 * 
-*  Version: 0.7.3
+*  Version: 0.7.4
 *  Author: Maurice Mahan
 *  License: MIT
 *  Repo: https://github.com/MauriceMahan/FocusOverlay
@@ -49,7 +49,6 @@
         var _ = this;
 
         _.active = false;
-        _.el = element;
         _.$el = $(element);
         _.$focusBox = $("<div aria-hidden='true' />");
         _.$previousTarget;
@@ -203,7 +202,7 @@
             /**
              * Check to see if what we're targetting is actually still there.
              * Then check to see if we're targetting a DOM element. There was
-             * an issue with the document and window sometimes being targetting
+             * an IE issue with the document and window sometimes being targetted
              * and throwing errors since you can't get the position values of those.
              */
             if ($target.length > 0 && $target[0] instanceof Element) {
@@ -243,7 +242,7 @@
         destroy: function() {
             var _ = this;
 
-            // Remove any attached data from your plugin
+            // Remove any attached data from the plugin
             _.$el.removeData();
 
             // Remove focusBox
