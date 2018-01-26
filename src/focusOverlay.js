@@ -5,7 +5,7 @@
 *   /_/      \____/  
 *   Focus Overlay
 * 
-*  Version: 0.7.4
+*  Version: 0.9.0
 *  Author: Maurice Mahan
 *  License: MIT
 *  Repo: https://github.com/MauriceMahan/FocusOverlay
@@ -52,7 +52,7 @@
         _.$el = $(element);
         _.$focusBox = $("<div aria-hidden='true' />");
         _.$previousTarget;
-        _.$target;
+        _.$nextTarget;
         _.timeout = 0;
 
         // Set the instance options extending the plugin defaults and
@@ -63,7 +63,7 @@
         _.onFocusHandler = $.proxy(_.onFocusHandler, _);
         _.createFocusBox = $.proxy(_.createFocusBox, _);
         _.onKeyDownHandler = $.proxy(_.onKeyDownHandler, _);
-        _.animateFocusBox = $.proxy(_.animateFocusBox, _);
+        _.moveFocusBox = $.proxy(_.moveFocusBox, _);
         _.cleanup = $.proxy(_.cleanup, _);
         _.stop = $.proxy(_.stop, _);
         _.destroy = $.proxy(_.destroy, _);
@@ -140,8 +140,8 @@
             var _ = this;
           
             // Remove previous target's class
-            if (_.$target != null) {
-                _.$previousTarget = _.$target;
+            if (_.$nextTarget != null) {
+                _.$previousTarget = _.$nextTarget;
                 _.$previousTarget.removeClass(_.options.targetClass);
             }
         },
@@ -152,17 +152,19 @@
          */
         onFocusHandler: function(e) {
             var _ = this,
-                $focus = $(e.target);
+                $current = _.$nextTarget,
+                $focus = $(e.target),
+                $previous = _.$previousTarget;
 
             _.cleanup();
 
             // If the focused element has data-focus then assign a new $target
             if ($focus.data("focus")) {
-                _.$target = $($focus.data("focus")).first();
+                _.$nextTarget = $($focus.data("focus")).first();
 
             // If the focused element has data-focus-label then focus the associated label
             } else if ($focus.is("[data-focus-label]")) {
-                _.$target = $("[for='" + $focus.attr("id") + "']");
+                _.$nextTarget = $("[for='" + $focus.attr("id") + "']");
 
             // If the focused element has data-ignore then stop
             } else if ($focus.is("[data-focus-ignore]")) {
@@ -170,12 +172,15 @@
 
             // If none of the above is true then set the target as the currently focused element
             } else {
-                _.$target = $focus;
+                _.$nextTarget = $focus;
             }
 
             clearTimeout(_.timeout);
-            _.$el.trigger("foBeforeMove", [_, _.$previousTarget, _.$target]);
-            _.animateFocusBox(_.$target);
+
+            // focusOverlay, $previousTarget, $currentTarget, $nextTarget
+            _.$el.trigger("foBeforeMove", [_, $previous, $current, _.$nextTarget]);
+
+            _.moveFocusBox(_.$nextTarget);
         },
 
         /**
@@ -194,7 +199,7 @@
          * Moves the focusBox to a target element
          * @param {jQuery Object}
          */
-        animateFocusBox: function($target) {
+        moveFocusBox: function($target) {
             var _ = this;
             
             $target.addClass(_.options.targetClass);
@@ -228,6 +233,7 @@
                         _.$focusBox.removeClass(_.options.activeClass);
                     }
                     
+                    // focusOverlay, $previousTarget, $currentTarget
                     _.$el.trigger("foAfterMove", [_, _.$previousTarget, $target]);
                 }, _.options.duration);
             } else {
@@ -250,7 +256,7 @@
 
             // Remove any extra classes given to other elements if they exist
             (_.$previousTarget != null) && _.$previousTarget.removeClass(_.options.targetClass);
-            (_.$target != null) && _.$target.removeClass(_.options.targetClass);
+            (_.$nextTarget != null) && _.$nextTarget.removeClass(_.options.targetClass);
 
             // Remove event listeners
             window.removeEventListener("focus", _.onFocusHandler, true);

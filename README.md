@@ -55,9 +55,9 @@ Note that bindings need to be added *before* the plugin is called. An example:
 
 ```js
 // Overriding the focusOverlay target before the box moves
-$(".site-wrapper").on("foBeforeMove", function(event, focusOverlay, $previousTarget, $target) {
-    if ($target.is(".header-btn")) {
-        focusOverlay.$target = $(".header-btn.alt");
+$(".site-wrapper").on("foBeforeMove", function(event, focusOverlay, $previousTarget, $currentTarget, $nextTarget) {
+    if ($nextTarget.is(".header-btn")) {
+        focusOverlay.$nextTarget = $(".header-btn.alt");
     }
 }).focusOverlay();
 ```
@@ -65,17 +65,28 @@ $(".site-wrapper").on("foBeforeMove", function(event, focusOverlay, $previousTar
 Event | Params | Description
 ------ | -------- | -----------
 foInit | event, focusOverlay | Fires after focusOverlay initializes
-foBeforeMove | event, focusOverlay, $previousTarget, $target | Fires before focusOverlay begins its duration timer
-foAfterMove | event, focusOverlay, $previousTarget, $target | Fires after focusOverlay's duration timer is finished
+foBeforeMove | event, focusOverlay, $previousTarget, $currentTarget, $nextTarget | Fires before focusOverlay begins its duration timer
+foAfterMove | event, focusOverlay, $previousTarget, $currentTarget | Fires after focusOverlay's duration timer is finished
 foDestroyed | event, focusOverlay | Fires after focusOverlay is destroyed
 
 ## Methods
 
-So far the only method available is `destroy`.
-
 ```js
-$(".site-wrapper").focusOverlay("destroy");
+// Example use of the "moveFocusBox" method
+$(".site-wrapper").focusOverlay("moveFocusBox", $("#element"));
 ```
+
+### Destroy
+
+**Arguments:** none
+
+Deconstructs the focusOverlay instance
+
+### moveFocusBox
+
+**Arguments:** jQuery Selector
+
+Moves the focusBox to a target element
 
 ## Data Attribute Settings
 

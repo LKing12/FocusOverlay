@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" href="../src/focusOverlay.css">
+<head>
+    <!-- Original test page written by Dominic Mazzoni -->
+    <title>focus-visible class demo</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <style>
+        div,
+        input,
+        textarea,
+        h1,
+        h2 {
+            font-family: arial, sans-serif;
+        }
+
+        div:not(#focus-overlay) {
+            margin: 1em 0;
+        }
+
+        div[contenteditable] {
+            width: 10em;
+            min-height: 2em;
+            padding: 0.2em;
+            border: 1px solid #000;
+        }
+
+        label {
+            display: block;
+            margin: 1em 0;
+        }
+
+        select {
+            width: 10em;
+        }
+
+        :focus:not(.focus-visible) {
+            outline: 0;
+        }
+
+        .foTest {
+            display: inline-block;
+            margin: 0 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>FocusOverlay test</h1>
+    <p>
+        This page contains various html controls and demonstrates when the keyboard is being
+        used to show FocusOverlay. Navigate through the interactive elements with your tab key.
+    </p>
+    <h2>Buttons</h2>
+    <div>
+        <label>
+            <input id="control-1" type="checkbox">Checkbox</label>
+    </div>
+    <div>
+        <label>
+            <input id="control-2" name="a" type="radio">Radio 1</label>
+        <label>
+            <input id="control-3" name="a" type="radio">Radio 2</label>
+    </div>
+    <div>
+        <button id="control-4">Button</button>
+    </div>
+    <div>
+        <input id="control-5" type="submit" value="Submit button">
+    </div>
+    <h2>Editable text</h2>
+    <div>
+        <input id="control-6" placeholder="Single line">
+    </div>
+    <div>
+        <textarea id="control-7" placeholder="Multi line"></textarea>
+    </div>
+    <div>
+        <div id="control-8" contenteditable="true">Contenteditable explicitly set to true</div>
+    </div>
+    <div>
+        <div id="control-9" contenteditable>Contenteditable</div>
+    </div>
+    <div>
+        <div id="control-10" role="textbox" contenteditable="true">Contenteditable with textbox role</div>
+    </div>
+    <h2>Focusable
+        <code>&lt;div&gt;</code>s</h2>
+    <div id="control-11" tabindex="0">
+        <code>tabindex="0"</code>
+    </div>
+    <div id="control-12" tabindex="-1">
+        <code>tabindex="-1"</code>
+    </div>
+    <div id="control-13" tabindex="0" >
+        <code>tabindex="0"</code>
+    </div>
+    <h2>Selects</h2>
+    <label>Select one from drop-down:
+        <br>
+        <select id="control-14">
+            <option>Apple</option>
+            <option>Orange</option>
+            <option>Banana</option>
+        </select>
+    </label>
+    <label>Select one from list:
+        <br>
+        <select id="control-15" size="5">
+            <option>Apple</option>
+            <option>Orange</option>
+            <option>Banana</option>
+        </select>
+    </label>
+    <label>Select multiple:
+        <br>
+        <select id="control-16" multiple="">
+            <option>Apple</option>
+            <option>Orange</option>
+            <option>Banana</option>
+        </select>
+    </label>
+    <h2>Other</h2>
+    <label>Process nice score from -20 to +20:
+        <br>
+        <input id="control-17" type="range" min="-20" max="20" value="0">
+    </label>
+    <label>Bowling score from 0 to 300:
+        <br>
+        <input id="control-18" type="range" min="0" max="300" value="0">
+    </label>
+    <div>
+        <input id="control-19" type="date" value="2008-09-01">
+    </div>
+    <div>
+        <input id="control-20" type="time" value="00:00:00">
+    </div>
+    <div>
+        <input id="control-21" type="number" placeholder="Number">
+    </div>
+    <div>
+        <input id="control-22" type="color" title="Color" value="#00ff00">
+    </div>
+    <div>
+        <input id="control-23" type="file" title="File">
+    </div>
+    <span class="foTest" id="foBeforeMovePrev" style="color: red">foBeforeMove: $previousTarget</span>
+    <span class="foTest" id="foBeforeMoveCurrent" style="color: red">foBeforeMove: $currentTarget</span>
+    <span class="foTest" id="foBeforeMoveNext" style="color: red">foBeforeMove: $nextTarget</span>
+    <span class="foTest" id="foAfterMovePrev" style="color: blue">foAfterMove: $previousTarget</span>
+    <span class="foTest" id="foAfterMoveCurrent" style="color: blue">foAfterMove: $currentTarget</span>
+    <script src="https://code.jquery.com/jquery-1.7.min.js" integrity="sha256-/05Jde9AMAT4/o5ZAI23rUf1SxDYTHLrkOco0eyRV84="
+        crossorigin="anonymous"></script>
+    <script src="../src/focusOverlay.js"></script>
+    <script>
+        
+        $(document).ready(function() {
+            var $foBeforeMovePrev = $("#foBeforeMovePrev"),
+                $foBeforeMoveCurrent = $("#foBeforeMoveCurrent"),
+                $foBeforeMoveNext = $("#foBeforeMoveNext"),
+                $foAfterMovePrev = $("#foAfterMovePrev"),
+                $foAfterMoveCurrent = $("#foAfterMoveCurrent");
+
+            $("body")
+                // .on("foBeforeMove", function(event, focusOverlay, $previousTarget, $currentTarget, $nextTarget) {
+                //     console.log("$previousTarget: ", $previousTarget);
+                //     console.log("$currentTarget: ", $currentTarget);
+                //     console.log("$nextTarget: ", $nextTarget);
+
+                //     ($previousTarget != null) && $foBeforeMovePrev.insertAfter($previousTarget);
+                //     ($currentTarget != null) && $foBeforeMoveCurrent.insertAfter($currentTarget);
+                //     ($nextTarget != null) && $foBeforeMoveNext.insertAfter($nextTarget);
+
+                //     if ($nextTarget.is("#control-19")) {
+                //         focusOverlay.$nextTarget = $("#control-23");
+                //     }
+                // })
+                // .on("foAfterMove", function(event, focusOverlay, $previousTarget, $currentTarget) {
+                //     console.log("$previousTarget: ", $previousTarget);
+                //     console.log("$currentTarget: ", $currentTarget);
+
+                //     ($previousTarget != null) && $foAfterMovePrev.insertAfter($previousTarget);
+                //     ($currentTarget != null) && $foAfterMoveCurrent.insertAfter($currentTarget);
+                // })
+                .focusOverlay();
+        });
+    </script>
+</body>
+
+</html>
