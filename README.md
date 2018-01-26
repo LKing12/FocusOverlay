@@ -1,6 +1,6 @@
 # FocusOverlay
 
-Plugin for creating overlays on focused elements. Inspired by NV's [Flying Focus](https://github.com/NV/flying-focus) UI concept. It was built with accessibility in mind with trigger keys and ARIA roles.
+Plugin for creating overlays on focused elements. Inspired by NV's [Flying Focus](https://github.com/NV/flying-focus) UI concept. It was built with accessibility in mind with trigger keys and ARIA roles. [Demo](https://mauricemahan.github.io/FocusOverlay/demo/)
 
 ![Focus Overlay](http://i.imgur.com/zMFb7m4.gif)
 
