@@ -43,6 +43,36 @@
             display: none;
             margin: 0 10px;
         }
+        
+        a.transition-test {
+            display: block;
+            background: rgba(255,255,255,.8);
+            max-width: 260px;
+            padding: 10px;
+            text-transform: uppercase;
+            color: #06427c;
+            font-weight: bold;
+            font-size: 15px;
+            font-size: .9375rem;
+            border: 1px solid #f28d1d;
+            text-align: center;
+            transition: all 0.5s linear;
+        }
+
+        a.transition-test:hover,
+        a.transition-test:focus {
+            background: #06427c;
+            color: #fff;
+            text-decoration: none;
+            max-width: 300px;
+        }
+        
+        a.transition-test.perm.trans {
+            background: #06427c;
+            color: #fff;
+            text-decoration: none;
+            max-width: 300px;
+        }
     </style>
 </head>
 
@@ -69,37 +99,46 @@
     <div>
         <input id="control-5" type="submit" value="Submit button">
     </div>
+    <div>
+        <a id="control-6" href="#">Regular Link</a>
+    </div>
+    <div>
+        <a id="control-7" href="#" class="transition-test">Link with focus transition</a>
+    </div>
+    <div>
+        <a id="control-8" href="#" class="transition-test perm">Link with permanent focus transition</a>
+    </div>
     <h2>Editable text</h2>
     <div>
-        <input id="control-6" placeholder="Single line">
+        <input id="control-9" placeholder="Single line">
     </div>
     <div>
-        <textarea id="control-7" placeholder="Multi line"></textarea>
+        <textarea id="control-10" placeholder="Multi line"></textarea>
     </div>
     <div>
-        <div id="control-8" contenteditable="true">Contenteditable explicitly set to true</div>
+        <div id="control-11" contenteditable="true">Contenteditable explicitly set to true</div>
     </div>
     <div>
-        <div id="control-9" contenteditable>Contenteditable</div>
+        <div id="control-12" contenteditable>Contenteditable</div>
     </div>
     <div>
-        <div id="control-10" role="textbox" contenteditable="true">Contenteditable with textbox role</div>
+        <div id="control-13" role="textbox" contenteditable="true">Contenteditable with textbox role</div>
     </div>
     <h2>Focusable
         <code>&lt;div&gt;</code>s</h2>
-    <div id="control-11" tabindex="0">
+    <div id="control-14" tabindex="0">
         <code>tabindex="0"</code>
     </div>
-    <div id="control-12" tabindex="-1">
+    <div id="control-15" tabindex="-1">
         <code>tabindex="-1"</code>
     </div>
-    <div id="control-13" tabindex="0">
+    <div id="control-16" tabindex="0">
         <code>tabindex="0"</code>
     </div>
     <h2>Selects</h2>
     <label>Select one from drop-down:
         <br>
-        <select id="control-14">
+        <select id="control-17">
             <option>Apple</option>
             <option>Orange</option>
             <option>Banana</option>
@@ -107,7 +146,7 @@
     </label>
     <label>Select one from list:
         <br>
-        <select id="control-15" size="5">
+        <select id="control-18" size="5">
             <option>Apple</option>
             <option>Orange</option>
             <option>Banana</option>
@@ -115,7 +154,7 @@
     </label>
     <label>Select multiple:
         <br>
-        <select id="control-16" multiple="">
+        <select id="control-19" multiple="">
             <option>Apple</option>
             <option>Orange</option>
             <option>Banana</option>
@@ -124,26 +163,26 @@
     <h2>Other</h2>
     <label>Process nice score from -20 to +20:
         <br>
-        <input id="control-17" type="range" min="-20" max="20" value="0">
+        <input id="control-20" type="range" min="-20" max="20" value="0">
     </label>
     <label>Bowling score from 0 to 300:
         <br>
-        <input id="control-18" type="range" min="0" max="300" value="0">
+        <input id="control-21" type="range" min="0" max="300" value="0">
     </label>
     <div>
-        <input id="control-19" type="date" value="2008-09-01">
+        <input id="control-22" type="date" value="2008-09-01">
     </div>
     <div>
-        <input id="control-20" type="time" value="00:00:00">
+        <input id="control-23" type="time" value="00:00:00">
     </div>
     <div>
-        <input id="control-21" type="number" placeholder="Number">
+        <input id="control-24" type="number" placeholder="Number">
     </div>
     <div>
-        <input id="control-22" type="color" title="Color" value="#00ff00">
+        <input id="control-25" type="color" title="Color" value="#00ff00">
     </div>
     <div>
-        <input id="control-23" type="file" title="File">
+        <input id="control-26" type="file" title="File">
     </div>
     <span class="foTest" id="foBeforeMovePrev" style="color: red">foBeforeMove: $previousTarget</span>
     <span class="foTest" id="foBeforeMoveCurrent" style="color: red">foBeforeMove: $currentTarget</span>
@@ -183,6 +222,10 @@
                 //     ($currentTarget != null) && $foAfterMoveCurrent.insertAfter($currentTarget);
                 // })
                 .focusOverlay();
+
+            $(".perm").on("focus", function (e) {
+                $(e.target).addClass("trans");
+            })
         });
     </script>
 </body>

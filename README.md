@@ -45,7 +45,8 @@ The default `options` are:
     triggerKeys: [9, 36, 37, 38, 39, 40, 13, 32, 16, 17, 18, 27], // Tab, Arrow Keys, Enter, Space, Shift, Ctrl, Alt, ESC
     inactiveOnNonTriggerKey: true, // Make focus box inactive when a non specified key is pressed
     inactiveOnClick: true, // Make focus box inactive when a user clicks
-    alwaysActive: false, // Force the box to always stay active. Overrides inactiveOnClick
+    alwaysActive: false, // Force the box to always stay active. Overrides everything
+    watchTransitionEnd: true // Reposition focus box on transitionEnd for focused elements (IE10+)
 }
 ```
 

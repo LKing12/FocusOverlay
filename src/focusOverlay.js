@@ -5,7 +5,7 @@
 *   /_/      \____/  
 *   Focus Overlay
 * 
-*  Version: 0.9.0
+*  Version: 0.9.1
 *  Author: Maurice Mahan
 *  License: MIT
 *  Repo: https://github.com/MauriceMahan/FocusOverlay
@@ -54,6 +54,7 @@
         _.$previousTarget;
         _.$nextTarget;
         _.timeout = 0;
+        _.transitionEvent = _._whichTransitionEvent();
 
         // Set the instance options extending the plugin defaults and
         // the options passed by the user
@@ -63,6 +64,7 @@
         _.onFocusHandler = $.proxy(_.onFocusHandler, _);
         _.createFocusBox = $.proxy(_.createFocusBox, _);
         _.onKeyDownHandler = $.proxy(_.onKeyDownHandler, _);
+        _._repositionBox = $.proxy(_._repositionBox, _);
         _.moveFocusBox = $.proxy(_.moveFocusBox, _);
         _.cleanup = $.proxy(_.cleanup, _);
         _.stop = $.proxy(_.stop, _);
@@ -139,10 +141,14 @@
         cleanup: function() {
             var _ = this;
           
-            // Remove previous target's class
+            // Remove previous target's classes and event listeners
             if (_.$nextTarget != null) {
                 _.$previousTarget = _.$nextTarget;
                 _.$previousTarget.removeClass(_.options.targetClass);
+
+                if (_.transitionEvent && _.options.watchTransitionEnd) {
+                    _.$previousTarget[0].removeEventListener(_.transitionEvent, _._repositionBox);
+                }
             }
         },
 
@@ -175,7 +181,20 @@
                 _.$nextTarget = $focus;
             }
 
+            /**
+             * Clear the timeout of the duration just in case if the
+             * user focuses a new element before the timer runs out.
+             */
             clearTimeout(_.timeout);
+
+            /**
+             * If transitionEnd is supported and watchTransitionEnd is enabled
+             * add a check to make the focusBox recalculate its position
+             * if the focused element has a long transition on focus.
+             */
+            if (_.transitionEvent && _.options.watchTransitionEnd) {
+                _.$nextTarget[0].addEventListener(_.transitionEvent, _._repositionBox);
+            }
 
             // focusOverlay, $previousTarget, $currentTarget, $nextTarget
             _.$el.trigger("foBeforeMove", [_, $previous, $current, _.$nextTarget]);
@@ -226,6 +245,9 @@
                         top: top
                     });
 
+                /**
+                 * Remove animating/active class after the duration ends.
+                 */
                 _.timeout = setTimeout(function() {
                     _.$focusBox.removeClass(_.options.animatingClass);
 
@@ -239,6 +261,19 @@
             } else {
                 _.cleanup();
             }
+        },
+
+        /**
+         * Handler method for transitionEnd on focused elements.
+         * Ensures that the focusBox will recalculate itself if
+         * the focused element changes in size after being focused
+         * @param {Event}
+         */
+        _repositionBox: function(e) {
+            var _ = this,
+                $element = $(e.target);
+
+            _.moveFocusBox($element);
         },
 
         /**
@@ -313,6 +348,28 @@
                 top: rect.top + offsetY,
                 width: rect.width
             };
+        },
+
+        /**
+         * Cross browser transitionEnd event
+         * https://davidwalsh.name/css-animation-callback
+         * @return {String} Browser's supported transitionend type
+         */
+        _whichTransitionEvent: function() {
+            var t;
+            var el = document.createElement('fakeelement');
+            var transitions = {
+                'transition': 'transitionend',
+                'OTransition': 'oTransitionEnd',
+                'MozTransition': 'transitionend',
+                'WebkitTransition': 'webkitTransitionEnd'
+            }
+
+            for (t in transitions) {
+                if (el.style[t] !== undefined) {
+                    return transitions[t];
+                }
+            }
         }
     };
     
@@ -374,6 +431,7 @@
         triggerKeys: [9, 36, 37, 38, 39, 40, 13, 32, 16, 17, 18, 27], // Tab, Arrow Keys, Enter, Space, Shift, Ctrl, Alt, ESC
         inactiveOnNonTriggerKey: true, // Make focus box inactive when a non specified key is pressed
         inactiveOnClick: true, // Make focus box inactive when a user clicks
-        alwaysActive: false, // Force the box to always stay active. Overrides inactiveOnClick
+        alwaysActive: false, // Force the box to always stay active. Overrides everything
+        watchTransitionEnd: true // Reposition focus box on transitionEnd for focused elements (IE10+)
     };
 }));
