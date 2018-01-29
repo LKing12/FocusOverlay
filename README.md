@@ -130,7 +130,9 @@ jQuery 1.7
 
 ## Notes
 
-* If you would like to *fully* support older browsers such as IE9-10 then `inactiveOnClick` must be set to `true`. Since these older browsers do not support the CSS `pointer-events: none` people would not be able to click under the focus box with it being always active.
+* If you would like to *fully* support older browsers such as IE9-10 then `inactiveOnClick` must be set to `true`. Since these older browsers do not support the CSS `pointer-events: none` people would not be able to click elements under the focus box with it being always active.
+
+* `watchTransitionEnd` is disabled by default on browsers that doesn't support the `transitionEnd` event (IE9).
 
 #### Todo
 
