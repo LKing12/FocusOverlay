@@ -5,7 +5,7 @@
 *   /_/      \____/  
 *   Focus Overlay
 * 
-*  Version: 0.9.1
+*  Version: 0.9.2
 *  Author: Maurice Mahan
 *  License: MIT
 *  Repo: https://github.com/MauriceMahan/FocusOverlay
@@ -54,6 +54,7 @@
         _.$previousTarget;
         _.$nextTarget;
         _.timeout = 0;
+        _.inScope = false;
         _.transitionEvent = _._whichTransitionEvent();
 
         // Set the instance options extending the plugin defaults and
@@ -158,48 +159,63 @@
          */
         onFocusHandler: function(e) {
             var _ = this,
-                $current = _.$nextTarget,
-                $focus = $(e.target),
-                $previous = _.$previousTarget;
+                $focus = $(e.target);
 
             _.cleanup();
 
-            // If the focused element has data-focus then assign a new $target
-            if ($focus.data("focus")) {
-                _.$nextTarget = $($focus.data("focus")).first();
+            // If the focused element is a child of the main element
+            if ($focus.closest(_.$el).length > 0) {
+                var $current = _.$nextTarget,
+                    $previous = _.$previousTarget;
 
-            // If the focused element has data-focus-label then focus the associated label
-            } else if ($focus.is("[data-focus-label]")) {
-                _.$nextTarget = $("[for='" + $focus.attr("id") + "']");
+                _.inScope = true;
 
-            // If the focused element has data-ignore then stop
-            } else if ($focus.is("[data-focus-ignore]")) {
-                return;
+                // If the focused element has data-focus then assign a new $target
+                if ($focus.data("focus")) {
+                    _.$nextTarget = $($focus.data("focus")).first();
 
-            // If none of the above is true then set the target as the currently focused element
+                // If the focused element has data-focus-label then focus the associated label
+                } else if ($focus.is("[data-focus-label]")) {
+                    _.$nextTarget = $("[for='" + $focus.attr("id") + "']");
+
+                // If the focused element has data-ignore then stop
+                } else if ($focus.is("[data-focus-ignore]")) {
+                    return;
+
+                // If none of the above is true then set the target as the currently focused element
+                } else {
+                    _.$nextTarget = $focus;
+                }
+
+                /**
+                 * Clear the timeout of the duration just in case if the
+                 * user focuses a new element before the timer runs out.
+                 */
+                clearTimeout(_.timeout);
+
+                /**
+                 * If transitionEnd is supported and watchTransitionEnd is enabled
+                 * add a check to make the focusBox recalculate its position
+                 * if the focused element has a long transition on focus.
+                 */
+                if (_.transitionEvent && _.options.watchTransitionEnd) {
+                    _.$nextTarget[0].addEventListener(_.transitionEvent, _._repositionBox);
+                }
+
+                // focusOverlay, $previousTarget, $currentTarget, $nextTarget
+                _.$el.trigger("foBeforeMove", [_, $previous, $current, _.$nextTarget]);
+
+                _.moveFocusBox(_.$nextTarget);                
+
+            // If the focused element is a child of the main element but alwaysActive do nothing
+            } else if (_.options.alwaysActive) {
+                _.inScope = false;
+
+            // If the element focused is not a child of the main element stop being active
             } else {
-                _.$nextTarget = $focus;
+                _.inScope = false;
+                _.stop();
             }
-
-            /**
-             * Clear the timeout of the duration just in case if the
-             * user focuses a new element before the timer runs out.
-             */
-            clearTimeout(_.timeout);
-
-            /**
-             * If transitionEnd is supported and watchTransitionEnd is enabled
-             * add a check to make the focusBox recalculate its position
-             * if the focused element has a long transition on focus.
-             */
-            if (_.transitionEvent && _.options.watchTransitionEnd) {
-                _.$nextTarget[0].addEventListener(_.transitionEvent, _._repositionBox);
-            }
-
-            // focusOverlay, $previousTarget, $currentTarget, $nextTarget
-            _.$el.trigger("foBeforeMove", [_, $previous, $current, _.$nextTarget]);
-
-            _.moveFocusBox(_.$nextTarget);
         },
 
         /**
