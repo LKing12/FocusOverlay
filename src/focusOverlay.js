@@ -5,7 +5,7 @@
 *   /_/      \____/  
 *   Focus Overlay
 * 
-*  Version: 0.9.2
+*  Version: 0.9.3
 *  Author: Maurice Mahan
 *  License: MIT
 *  Repo: https://github.com/MauriceMahan/FocusOverlay
@@ -57,8 +57,7 @@
         _.inScope = false;
         _.transitionEvent = _._whichTransitionEvent();
 
-        // Set the instance options extending the plugin defaults and
-        // the options passed by the user
+        // Set the instance options extending the plugin defaults and the options passed by the user
         _.options = $.extend({}, $.fn.focusOverlay.defaults, options);
 
         // Add in proxies so _ scope ties to this function even when called via outside event bindings, etc.
@@ -176,7 +175,14 @@
 
                 // If the focused element has data-focus-label then focus the associated label
                 } else if ($focus.is("[data-focus-label]")) {
-                    _.$nextTarget = $("[for='" + $focus.attr("id") + "']");
+                    var $associatedLabel = $("[for='" + $focus.attr("id") + "']");
+
+                    // If there is no label pointing directly to the focused element, then point to the wrapping label
+                    if ($associatedLabel.length < 1) {
+                        $associatedLabel = $focus.closest("label");
+                    } 
+                    
+                    _.$nextTarget = $associatedLabel;
 
                 // If the focused element has data-ignore then stop
                 } else if ($focus.is("[data-focus-ignore]")) {
