@@ -1,11 +1,11 @@
-/*! ________________ 
+/*! ________________
 *   ___  ____/_  __ \
 *   __  /_   _  / / /
-*   _  __/   / /_/ / 
-*   /_/      \____/  
+*   _  __/   / /_/ /
+*   /_/      \____/
 *   Focus Overlay
-* 
-*  Version: 0.9.3
+*
+*  Version: 0.9.4
 *  Author: Maurice Mahan
 *  License: MIT
 *  Repo: https://github.com/MauriceMahan/FocusOverlay
@@ -84,7 +84,7 @@
          */
         init: function() {
             var _ = this;
-            
+
             if (_.options.alwaysActive) {
                 _.active = true;
                 window.addEventListener("focus", _.onFocusHandler, true);
@@ -124,7 +124,7 @@
          */
         createFocusBox: function() {
             var _ = this;
-            
+
             _.$focusBox.appendTo(_.$el)
                 .attr("id", _.options.id)
                 .css({
@@ -140,7 +140,7 @@
          */
         cleanup: function() {
             var _ = this;
-          
+
             // Remove previous target's classes and event listeners
             if (_.$nextTarget != null) {
                 _.$previousTarget = _.$nextTarget;
@@ -180,8 +180,8 @@
                     // If there is no label pointing directly to the focused element, then point to the wrapping label
                     if ($associatedLabel.length < 1) {
                         $associatedLabel = $focus.closest("label");
-                    } 
-                    
+                    }
+
                     _.$nextTarget = $associatedLabel;
 
                 // If the focused element has data-ignore then stop
@@ -211,7 +211,7 @@
                 // focusOverlay, $previousTarget, $currentTarget, $nextTarget
                 _.$el.trigger("foBeforeMove", [_, $previous, $current, _.$nextTarget]);
 
-                _.moveFocusBox(_.$nextTarget);                
+                _.moveFocusBox(_.$nextTarget);
 
             // If the focused element is a child of the main element but alwaysActive do nothing
             } else if (_.options.alwaysActive) {
@@ -225,11 +225,11 @@
         },
 
         /**
-         * Ends the active state of the focusBox 
+         * Ends the active state of the focusBox
          */
         stop: function() {
             var _ = this;
-            
+
             _.active = false;
             window.removeEventListener("focus", _.onFocusHandler, true);
             _.cleanup();
@@ -242,9 +242,9 @@
          */
         moveFocusBox: function($target) {
             var _ = this;
-            
+
             $target.addClass(_.options.targetClass);
-            
+
             /**
              * Check to see if what we're targetting is actually still there.
              * Then check to see if we're targetting a DOM element. There was
@@ -276,7 +276,7 @@
                     if (_.options.inactiveAfterDuration) {
                         _.$focusBox.removeClass(_.options.activeClass);
                     }
-                    
+
                     // focusOverlay, $previousTarget, $currentTarget
                     _.$el.trigger("foAfterMove", [_, _.$previousTarget, $target]);
                 }, _.options.duration);
@@ -295,7 +295,10 @@
             var _ = this,
                 $element = $(e.target);
 
-            _.moveFocusBox($element);
+            // Make sure child elements are not focused if they have transitions also
+            if ( $element.is(_.$previousTarget) || $element.is(_.$nextTarget) ) {
+                _.moveFocusBox($element);
+            }
         },
 
         /**
@@ -325,11 +328,11 @@
 
         /**
          * Gist: https://gist.github.com/rgrove/5463265
-         * 
+         *
          * This is a modified, cross-browser version of the native `getBoundingClientRect()`
          * Which returns a bounding rect for _el_ with absolute coordinates corrected for
          * scroll positions.
-         * 
+         *
          * @param {HTMLElement} el HTML element
          * @return {Object} Absolute bounding rect for _el_.
          */
@@ -394,7 +397,7 @@
             }
         }
     };
-    
+
     $.fn.focusOverlay = function (options) {
         var args = arguments;
 
