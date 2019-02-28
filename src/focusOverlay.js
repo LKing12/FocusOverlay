@@ -65,6 +65,7 @@
         _.createFocusBox = $.proxy(_.createFocusBox, _);
         _.onKeyDownHandler = $.proxy(_.onKeyDownHandler, _);
         _._repositionBox = $.proxy(_._repositionBox, _);
+        _._iframeOverlayCheck = $.proxy(_._iframeOverlayCheck, _);
         _.moveFocusBox = $.proxy(_.moveFocusBox, _);
         _.cleanup = $.proxy(_.cleanup, _);
         _.stop = $.proxy(_.stop, _);
@@ -87,7 +88,7 @@
 
             if (_.options.alwaysActive) {
                 _.active = true;
-                window.addEventListener("focus", _.onFocusHandler, true);
+                window.addEventListener("focusin", _.onFocusHandler);
             } else {
                 window.addEventListener("keydown", _.onKeyDownHandler, false);
 
@@ -95,6 +96,8 @@
                     window.addEventListener("mousedown", _.stop, false);
                 }
             }
+
+            window.addEventListener("focusout", _._iframeOverlayCheck);
 
             _.createFocusBox();
             _.$el.trigger("foInit", [_]);
@@ -112,7 +115,7 @@
             if ($.inArray(code, _.options.triggerKeys) >= 0) {
                 if (_.active === false) {
                     _.active = true;
-                    window.addEventListener("focus", _.onFocusHandler, true);
+                    window.addEventListener("focusin", _.onFocusHandler);
                 }
             } else if (_.options.inactiveOnNonTriggerKey) {
                 _.stop();
@@ -231,7 +234,7 @@
             var _ = this;
 
             _.active = false;
-            window.removeEventListener("focus", _.onFocusHandler, true);
+            window.removeEventListener("focusin", _.onFocusHandler);
             _.cleanup();
             _.$focusBox.removeClass(_.options.activeClass);
         },
@@ -246,9 +249,9 @@
             $target.addClass(_.options.targetClass);
 
             /**
-             * Check to see if what we're targetting is actually still there.
-             * Then check to see if we're targetting a DOM element. There was
-             * an IE issue with the document and window sometimes being targetted
+             * Check to see if what we're targeting is actually still there.
+             * Then check to see if we're targeting a DOM element. There was
+             * an IE issue with the document and window sometimes being targeted
              * and throwing errors since you can't get the position values of those.
              */
             if ($target.length > 0 && $target[0] instanceof Element) {
@@ -286,6 +289,29 @@
         },
 
         /**
+         * Handler method for checking if an iframe was just focused. Since
+         * the browser doesn't actually trigger an event for focusing on
+         * the iframe we'll just manually move the focus box instead.
+         * @param {Event}
+         */
+        _iframeOverlayCheck: function(e) {
+            var _ = this;
+
+            /**
+             * Check if an iframe is currently focused.
+             * Also make sure the iframe is in scope.
+             * See https://stackoverflow.com/a/28932220/8862005
+             */
+            setTimeout(function () {
+                var activeEl = document.activeElement;
+
+                if (activeEl instanceof HTMLIFrameElement && $(activeEl).closest(_.$el).length > 0) {
+                    _.moveFocusBox($(activeEl));
+                }
+            }, 0);
+        },
+
+        /**
          * Handler method for transitionEnd on focused elements.
          * Ensures that the focusBox will recalculate itself if
          * the focused element changes in size after being focused
@@ -319,7 +345,7 @@
             (_.$nextTarget != null) && _.$nextTarget.removeClass(_.options.targetClass);
 
             // Remove event listeners
-            window.removeEventListener("focus", _.onFocusHandler, true);
+            window.removeEventListener("focusin", _.onFocusHandler);
             window.removeEventListener("keydown", _.onKeyDownHandler, false);
             window.removeEventListener("mousedown", _.stop, false);
 
