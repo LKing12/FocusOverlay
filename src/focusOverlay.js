@@ -348,8 +348,11 @@
             window.removeEventListener("focusin", _.onFocusHandler);
             window.removeEventListener("keydown", _.onKeyDownHandler, false);
             window.removeEventListener("mousedown", _.stop, false);
+            window.removeEventListener("focusout", _._iframeOverlayCheck);
 
             _.$el.trigger("foDestroyed", [_]);
+
+            return true;
         },
 
         /**
