@@ -308,7 +308,7 @@
                 if (activeEl instanceof HTMLIFrameElement && $(activeEl).closest(_.$el).length > 0) {
                     _.moveFocusBox($(activeEl));
                 }
-            }, 0);
+            }, 5);
         },
 
         /**
