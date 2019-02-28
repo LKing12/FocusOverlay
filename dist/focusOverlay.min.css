@@ -5,7 +5,7 @@
 *   /_/      \____/
 *   Focus Overlay
 *
-*  Version: 0.9.4
+*  Version: 0.9.5
 *  Author: Maurice Mahan
 *  License: MIT
 *  Repo: https://github.com/MauriceMahan/FocusOverlay
