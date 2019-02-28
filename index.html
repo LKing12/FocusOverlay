@@ -105,7 +105,8 @@
 <body>
     <h1>FocusOverlay test</h1>
     <p>
-        This page contains various html controls and demonstrates when the keyboard is being used to show FocusOverlay. Navigate
+        This page contains various html controls and demonstrates when the keyboard is being used to show FocusOverlay.
+        Navigate
         through the interactive elements with your tab key.
     </p>
     <h2>Buttons</h2>
@@ -113,66 +114,88 @@
         <b>Default Settings</b>
         <div>
             <label>
-                <input id="control-1" type="checkbox">Checkbox</label>
+                <input type="checkbox">Checkbox</label>
         </div>
         <div>
             <label>
-                <input id="control-2" name="a" type="radio">Radio 1</label>
+                <input name="a" type="radio">Radio 1</label>
             <label>
-                <input id="control-3" name="b" type="radio">Radio 2</label>
+                <input name="b" type="radio">Radio 2</label>
         </div>
         <div>
-            <button id="control-4">Button</button>
+            <button>Button</button>
         </div>
         <div>
-            <input id="control-5" type="submit" value="Submit button">
+            <input type="submit" value="Submit button">
         </div>
         <div>
-            <a id="control-6" href="#">Regular Link</a>
+            <a href="#">Regular Link</a>
         </div>
         <div>
-            <a id="control-7" href="#" class="transition-test">Link with focus transition</a>
+            <a href="#" class="transition-test">Link with focus transition</a>
         </div>
         <div>
-            <a id="control-8" href="#" class="transition-test perm">Link with permanent focus transition</a>
+            <a href="#" class="transition-test perm">Link with permanent focus transition</a>
         </div>
         <div>
-            <a id="control-9" href="#" class="transition-test inner">Link with focus transition and inner element with focus transition <span>&nbsp;</span> </a>
+            <a href="#" class="transition-test inner">Link with focus transition and inner element with focus
+                transition <span>&nbsp;</span> </a>
         </div>
-        <h2>Editable text</h2>
+        <div tabindex="0">
+            <a href="#" class="transition-test inner">Link with focus transition and outer element that's focusable</a>
+        </div>
+        <h2 tabindex="0">Editable text</h2>
         <div>
-            <input id="control-10" placeholder="Single line">
+            <input placeholder="Single line">
         </div>
         <div>
-            <textarea id="control-11" placeholder="Multi line"></textarea>
+            <textarea placeholder="Multi line"></textarea>
+        </div>
+        <h2>Iframe</h2>
+        <iframe title="Inline Frame Example" width="300" height="200" src="https://www.openstreetmap.org/export/embed.html?bbox=-0.004017949104309083%2C51.47612752641776%2C0.00030577182769775396%2C51.478569861898606&layer=mapnik">
+        </iframe>
+        <div>
+            <input type="text" placeholder="Item after iframe">
+        </div>
+        <embed type="video/webm" src="https://www.openstreetmap.org/export/embed.html?bbox=-0.004017949104309083%2C51.47612752641776%2C0.00030577182769775396%2C51.478569861898606&layer=mapnik" width="250" height="200">
+        <div>
+            <input type="text" placeholder="Item after embed">
+        </div>
+        <video controls width="250">
+            <source src="//interactive-examples.mdn.mozilla.net/media/examples/flower.webm" type="video/webm">
+            <source src="//interactive-examples.mdn.mozilla.net/media/examples/flower.mp4" type="video/mp4">
+            Sorry, your browser doesn't support embedded videos.
+        </video>
+        <div>
+            <input type="text" placeholder="Item after video">
         </div>
     </div>
     <div class="section-two">
         <b><i>alwaysActive</i> set to true</b>
         <div>
-            <div id="control-12" contenteditable="true">Contenteditable explicitly set to true</div>
+            <div contenteditable="true">Contenteditable explicitly set to true</div>
         </div>
         <div>
-            <div id="control-13" contenteditable>Contenteditable</div>
+            <div contenteditable>Contenteditable</div>
         </div>
         <div>
-            <div id="control-14" role="textbox" contenteditable="true">Contenteditable with textbox role</div>
+            <div role="textbox" contenteditable="true">Contenteditable with textbox role</div>
         </div>
         <h2>Focusable
             <code>&lt;div&gt;</code>s</h2>
-        <div id="control-15" tabindex="0">
+        <div tabindex="0">
             <code>tabindex="0"</code>
         </div>
-        <div id="control-16" tabindex="-1">
+        <div tabindex="-1">
             <code>tabindex="-1"</code>
         </div>
-        <div id="control-17" tabindex="0">
+        <div tabindex="0">
             <code>tabindex="0"</code>
         </div>
         <h2>Selects</h2>
         <label>Select one from drop-down:
             <br>
-            <select id="control-18">
+            <select>
                 <option>Apple</option>
                 <option>Orange</option>
                 <option>Banana</option>
@@ -180,7 +203,7 @@
         </label>
         <label>Select one from list:
             <br>
-            <select id="control-19" size="5">
+            <select size="5">
                 <option>Apple</option>
                 <option>Orange</option>
                 <option>Banana</option>
@@ -188,7 +211,7 @@
         </label>
         <label>Select multiple:
             <br>
-            <select id="control-20" multiple="">
+            <select multiple="">
                 <option>Apple</option>
                 <option>Orange</option>
                 <option>Banana</option>
@@ -197,44 +220,63 @@
         <h2>Other</h2>
         <label>data-focus-label with no <i>for</i> attribute:
             <br>
-            <input data-focus-label id="control-21" type="range" min="-20" max="20" value="0">
+            <input data-focus-label type="range" min="-20" max="20" value="0">
         </label>
         <label>Bowling score from 0 to 300:
             <br>
-            <input id="control-22" type="range" min="0" max="300" value="0">
+            <input type="range" min="0" max="300" value="0">
         </label>
+        <div>
+            <input type="date" value="2008-09-01">
+        </div>
+        <div>
+            <input type="time" value="00:00:00">
+        </div>
+        <div>
+            <input type="number" placeholder="Number">
+        </div>
+        <div>
+            <input type="color" title="Color" value="#00ff00">
+        </div>
+        <div>
+            <input type="file" title="File">
+        </div>
+    </div>
+    <h2>FocusOverlay is not called on the elements below</h2>
+    <div>
+        <label>
+            <input type="checkbox">Checkbox</label>
     </div>
     <div>
-        <input id="control-23" type="date" value="2008-09-01">
+        <label>
+            <input name="a" type="radio">Radio 1</label>
+        <label>
+            <input name="b" type="radio">Radio 2</label>
     </div>
     <div>
-        <input id="control-24" type="time" value="00:00:00">
-    </div>
-    <div>
-        <input id="control-25" type="number" placeholder="Number">
-    </div>
-    <div>
-        <input id="control-26" type="color" title="Color" value="#00ff00">
-    </div>
-    <div>
-        <input id="control-27" type="file" title="File">
+        <button>Button</button>
     </div>
     <span class="foTest" id="foBeforeMovePrev" style="color: red">foBeforeMove: $previousTarget</span>
     <span class="foTest" id="foBeforeMoveCurrent" style="color: red">foBeforeMove: $currentTarget</span>
     <span class="foTest" id="foBeforeMoveNext" style="color: red">foBeforeMove: $nextTarget</span>
     <span class="foTest" id="foAfterMovePrev" style="color: blue">foAfterMove: $previousTarget</span>
     <span class="foTest" id="foAfterMoveCurrent" style="color: blue">foAfterMove: $currentTarget</span>
-    <script src="https://code.jquery.com/jquery-1.7.min.js" integrity="sha256-/05Jde9AMAT4/o5ZAI23rUf1SxDYTHLrkOco0eyRV84=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.7.min.js" integrity="sha256-/05Jde9AMAT4/o5ZAI23rUf1SxDYTHLrkOco0eyRV84="
+        crossorigin="anonymous"></script>
     <script src="src/focusOverlay.js"></script>
     <script>
-
         $(document).ready(function () {
+            $('input, a, iframe, object, embed, [tabindex], [contenteditable], button, textarea, select, area').each(function (i) {
+                $(this).attr('id', 'control-' + i);
+            });
+
             var $foBeforeMovePrev = $("#foBeforeMovePrev"),
                 $foBeforeMoveCurrent = $("#foBeforeMoveCurrent"),
                 $foBeforeMoveNext = $("#foBeforeMoveNext"),
                 $foAfterMovePrev = $("#foAfterMovePrev"),
                 $foAfterMoveCurrent = $("#foAfterMoveCurrent");
 
+            // Testing
             $(".section-one")
                 // .on("foBeforeMove", function (event, focusOverlay, $previousTarget, $currentTarget, $nextTarget) {
                 //     console.log("$previousTarget: ", $previousTarget);
@@ -245,8 +287,8 @@
                 //     ($currentTarget != null) && $foBeforeMoveCurrent.insertAfter($currentTarget);
                 //     ($nextTarget != null) && $foBeforeMoveNext.insertAfter($nextTarget);
 
-                //     if ($nextTarget.is("#control-19")) {
-                //         focusOverlay.$nextTarget = $("#control-23");
+                //     if ($nextTarget.is("#19")) {
+                //         focusOverlay.$nextTarget = $("#23");
                 //     }
                 // })
                 // .on("foAfterMove", function (event, focusOverlay, $previousTarget, $currentTarget) {
@@ -268,8 +310,8 @@
                 //     ($currentTarget != null) && $foBeforeMoveCurrent.insertAfter($currentTarget);
                 //     ($nextTarget != null) && $foBeforeMoveNext.insertAfter($nextTarget);
 
-                //     if ($nextTarget.is("#control-19")) {
-                //         focusOverlay.$nextTarget = $("#control-23");
+                //     if ($nextTarget.is("#19")) {
+                //         focusOverlay.$nextTarget = $("#23");
                 //     }
                 // })
                 // .on("foAfterMove", function (event, focusOverlay, $previousTarget, $currentTarget) {
