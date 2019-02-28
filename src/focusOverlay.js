@@ -319,7 +319,7 @@
          */
         _repositionBox: function(e) {
             var _ = this,
-                $element = $(e.target);
+                $element = $(document.activeElement);
 
             // Make sure child elements are not focused if they have transitions also
             if ( $element.is(_.$previousTarget) || $element.is(_.$nextTarget) ) {

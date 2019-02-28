@@ -7,6 +7,10 @@
     <title>FocusOverlay Demo</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
         div,
         input,
         textarea,
@@ -99,16 +103,20 @@
         .section-two #focus-overlay:after {
             box-shadow: 0 0 2px 1px green, 0 0 2px green inset;
         }
+
+        small {
+            font-size: 0.6em;
+        }
     </style>
 </head>
 
 <body>
-    <h1>FocusOverlay test</h1>
-    <p>
-        This page contains various html controls and demonstrates when the keyboard is being used to show FocusOverlay.
-        Navigate
-        through the interactive elements with your tab key.
-    </p>
+    <h1>FocusOverlay - <small><a href="https://github.com/MauriceMahan/FocusOverlay">Repo</a></small></h1>
+    <ul>
+        <li>This page contains various html controls and demonstrates when the keyboard is being used to show FocusOverlay.</li>
+        <li>Navigate through the interactive elements with your tab key.</li>
+        <li>Outlined sections have their own scoped instance.</li>
+    </ul>
     <h2>Buttons</h2>
     <div class="section-one">
         <b>Default Settings</b>
@@ -131,19 +139,6 @@
         <div>
             <a href="#">Regular Link</a>
         </div>
-        <div>
-            <a href="#" class="transition-test">Link with focus transition</a>
-        </div>
-        <div>
-            <a href="#" class="transition-test perm">Link with permanent focus transition</a>
-        </div>
-        <div>
-            <a href="#" class="transition-test inner">Link with focus transition and inner element with focus
-                transition <span>&nbsp;</span> </a>
-        </div>
-        <div tabindex="0">
-            <a href="#" class="transition-test inner">Link with focus transition and outer element that's focusable</a>
-        </div>
         <h2 tabindex="0">Editable text</h2>
         <div>
             <input placeholder="Single line">
@@ -151,11 +146,27 @@
         <div>
             <textarea placeholder="Multi line"></textarea>
         </div>
+        <h2>Transitions</h2>
+        <div>
+            <a href="#" class="transition-test">Link with focus transition</a>
+        </div>
+        <div>
+            <a href="#" class="transition-test perm">Link with permanent focus transition</a>
+        </div>
+        <div tabindex="0">
+            <a href="#" class="transition-test inner">Link with focus transition and outer element that's focusable</a>
+        </div>
+        <div>
+            <a href="#" class="transition-test inner">Link with focus transition and inner element with focus
+                transition <span>&nbsp;</span> </a>
+        </div>
         <h2>Iframe</h2>
         <iframe title="Inline Frame Example" width="300" height="200" src="https://www.openstreetmap.org/export/embed.html?bbox=-0.004017949104309083%2C51.47612752641776%2C0.00030577182769775396%2C51.478569861898606&layer=mapnik">
         </iframe>
         <div>
-            <input type="text" placeholder="Item after iframe">
+            <div>
+                <a href="#" class="transition-test">Transitioned link after iframe focus</a>
+            </div>
         </div>
         <video controls width="250">
             <source src="//interactive-examples.mdn.mozilla.net/media/examples/flower.webm" type="video/webm">
