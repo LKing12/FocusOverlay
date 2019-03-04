@@ -1,0 +1,51 @@
+{
+  "name": "focus-overlay",
+  "version": "0.9.5",
+  "description": "Plugin for creating overlays on focused elements.",
+  "license": "MIT",
+  "engines": {
+    "node": ">=6"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MauriceMahan/FocusOverlay.git"
+  },
+  "bugs": {
+    "url": "https://github.com/MauriceMahan/FocusOverlay/issues"
+  },
+  "homepage": "https://github.com/MauriceMahan/FocusOverlay",
+  "author": "Maurice Mahan",
+  "main": "dist/focusoverlay.cjs.js",
+  "module": "dist/focusoverlay.esm.js",
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "rollup -c",
+    "watch": "rollup -c -w"
+  },
+  "keywords": [
+    "focus",
+    "overlay",
+    "jQuery",
+    "accessibility",
+    "plugin",
+    "javascript",
+    "CSS",
+    "a11y"
+  ],
+  "sideEffects": false,
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/core": "^7.3.4",
+    "@babel/plugin-transform-object-assign": "^7.2.0",
+    "@babel/preset-env": "^7.3.4",
+    "babel-plugin-array-includes": "^2.0.3",
+    "gatsby": "^2.1.18",
+    "node-sass": "^4.11.0",
+    "rimraf": "^2.6.3",
+    "rollup": "^1.3.0",
+    "rollup-plugin-babel": "^4.3.2",
+    "rollup-plugin-node-resolve": "^4.0.1",
+    "rollup-plugin-postcss": "^2.0.3",
+    "rollup-plugin-terser": "^4.0.4"
+  }
+}
