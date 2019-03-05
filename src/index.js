@@ -246,7 +246,6 @@ export default class FocusOverlay {
      * Moves the focusBox to a target element
      * @param {Element|Event} targetEl
      */
-    // TODO: Make sure this continues to be a method
     moveFocusBox(targetEl) {
         // When passed as a handler we'll get the event target
         if (targetEl instanceof Event) targetEl = document.activeElement;
@@ -267,7 +266,6 @@ export default class FocusOverlay {
             const left = `${rect.left}px`;
             const top = `${rect.top}px`;
 
-            // TODO: Is it possible to add multiple classes at once?
             this.focusBox.classList.add(this.options.animatingClass);
             this.focusBox.classList.add(this.options.activeClass);
 
@@ -293,10 +291,6 @@ export default class FocusOverlay {
      * References, unregister listeners, etc.
      */
     destroy() {
-        // Remove any attached data from the plugin
-        // TODO: Remove all `data`
-        // this.$el.removeData();
-
         // Remove focusBox
         this.focusBox.parentNode.removeChild(this.focusBox);
 
