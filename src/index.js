@@ -1,10 +1,8 @@
-import './styles.scss';
-import './polyfills/customEvent';
+import './styles.css';
 import './polyfills/arrayIncludes';
 import extend from './utils/extend';
 import getAbsoluteBoundingRect from './utils/getAbsoluteBoundingRect';
 import whichTransitionEvent from './utils/whichTransitionEvent';
-import triggerEvent from './utils/triggerEvent';
 
 /**
 * The plugin constructor
@@ -22,8 +20,8 @@ export default class FocusOverlay {
         this.inScope = false;
         this.transitionEvent = whichTransitionEvent();
         this.options = extend({
-            // ID added to the focus box
-            id: 'focus-overlay',
+            // Class added to the focus box
+            class: 'focus-overlay',
             // Class added while the focus box is active
             activeClass: 'focus-overlay-active',
             // Class added while the focus box is animating
@@ -45,7 +43,15 @@ export default class FocusOverlay {
             // Force the box to always stay active. Overrides everything
             alwaysActive: false,
             // Reposition focus box on transitionEnd for focused elements (IE10+)
-            watchTransitionEnd: true
+            watchTransitionEnd: true,
+            // Initialization event
+            onInit: function() {},
+            // Before focus box move
+            onBeforeMove: function() {},
+            // After focus box move
+            onAfterMove: function() {},
+            // After FocusOverlay is destroyed
+            onDestroy: function() {},
         }, options || {});
 
         /**
@@ -86,9 +92,8 @@ export default class FocusOverlay {
             }
         }
 
-        this.createFocusBox();
-        // TODO: Fix event triggers
-        triggerEvent(this.scopedEl, 'foInit', this);
+        this._createFocusBox();
+        this.options.onInit(this);
     }
 
     /**
@@ -121,7 +126,6 @@ export default class FocusOverlay {
                     this.moveFocusBox(activeEl);
                 }
             }, 5);
-
         } else if (this.options.inactiveOnNonTriggerKey) {
             this.stop();
         }
@@ -130,10 +134,10 @@ export default class FocusOverlay {
     /**
      * Creates the focusBox DIV element and appends itself to the DOM
      */
-    createFocusBox() {
+    _createFocusBox() {
         this.focusBox = document.createElement('div');
         this.focusBox.setAttribute('aria-hidden', 'true');
-        this.focusBox.setAttribute('id', this.options.id);
+        this.focusBox.classList.add(this.options.class);
 
         Object.assign(this.focusBox.style, {
             position: 'absolute',
@@ -148,7 +152,7 @@ export default class FocusOverlay {
      * Cleanup method that runs whenever variables,
      * methods, etc. needs to be refreshed.
      */
-    cleanup() {
+    _cleanup() {
         // Remove previous target's classes and event listeners
         if (this.nextTarget != null) {
             this.previousTarget = this.nextTarget;
@@ -164,13 +168,12 @@ export default class FocusOverlay {
     onFocusHandler(e) {
         const focusedEl = e.target;
 
-        this.cleanup();
+        this._cleanup();
 
         // If the focused element is a child of the main element
         if (this.scopedEl.contains(focusedEl)) {
-            // TODO: Add this to event trigger
+            // Variable to be added to onBeforeMove event later
             const currentEl = this.nextTarget;
-            const previousEl = this.previousTarget;
 
             this.inScope = true;
 
@@ -215,10 +218,7 @@ export default class FocusOverlay {
                 this.nextTarget.addEventListener(this.transitionEvent, this.moveFocusBox);
             }
 
-            // TODO:
-            // focusOverlay, previousTarget, currentTarget, nextTarget
-            // this.$el.trigger('foBeforeMove', [_, previousEl, currentEl, this.nextTarget]);
-
+            this.options.onBeforeMove(currentEl, this.nextTarget, this);
             this.moveFocusBox(this.nextTarget);
 
         // If the focused element is a child of the main element but alwaysActive do nothing
@@ -238,7 +238,7 @@ export default class FocusOverlay {
     stop() {
         this.active = false;
         window.removeEventListener('focusin', this.onFocusHandler, true);
-        this.cleanup();
+        this._cleanup();
         this.focusBox.classList.remove(this.options.activeClass);
     }
 
@@ -261,7 +261,6 @@ export default class FocusOverlay {
          * and throwing errors since you can't get the position values of those.
          */
         if (document.body.contains(targetEl) && targetEl instanceof Element) {
-            // TODO: Maybe destructure this?
             const rect = getAbsoluteBoundingRect(targetEl);
             const width = `${rect.width}px`;
             const height = `${rect.height}px`;
@@ -282,12 +281,10 @@ export default class FocusOverlay {
                     this.focusBox.classList.remove(this.options.activeClass);
                 }
 
-                // TODO:
-                // focusOverlay, previousTarget, currentTarget
-                // this.$el.trigger('foAfterMove', [_, this.previousTarget, targetEl]);
+                this.options.onAfterMove(this.previousTarget, targetEl, this);
             }, this.options.duration);
         } else {
-            this.cleanup();
+            this._cleanup();
         }
     }
 
@@ -301,7 +298,7 @@ export default class FocusOverlay {
         // this.$el.removeData();
 
         // Remove focusBox
-        this.focusBox.remove();
+        this.focusBox.parentNode.removeChild(this.focusBox);
 
         // Remove any extra classes given to other elements if they exist
         (this.previousTarget != null) && this.previousTarget.classList.remove(this.options.targetClass);
@@ -312,9 +309,6 @@ export default class FocusOverlay {
         window.removeEventListener('keydown', this.onKeyDownHandler, false);
         window.removeEventListener('mousedown', this.stop, false);
 
-        // TODO: Trigger
-        // this.$el.trigger('foDestroyed', [_]);
-
-        return true;
+        this.options.onDestroy(this);
     }
 }

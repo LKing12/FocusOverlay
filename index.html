@@ -18,7 +18,7 @@
             font-family: arial, sans-serif;
         }
 
-        div:not(#focus-overlay) {
+        div:not(.focus-overlay) {
             margin: 1em 0;
         }
 
@@ -95,11 +95,11 @@
             border: 1px solid green;
         }
 
-        .section-two #focus-overlay {
+        .section-two .focus-overlay {
             box-shadow: 0 0 3px 2px green;
         }
 
-        .section-two #focus-overlay:after {
+        .section-two .focus-overlay:after {
             box-shadow: 0 0 2px 1px green, 0 0 2px green inset;
         }
 
@@ -284,11 +284,23 @@
         // Initialization
         const sectionOne = document.querySelector('.section-one');
         const sectionTwo = document.querySelector('.section-two');
-        sectionOne.addEventListener('foInit', function(e) {
-            console.log(e);
+        const foOne = new FocusOverlay('.section-one', {
+            onInit: function (focusOverlay) {
+                console.log('ran', focusOverlay);
+            },
+            onBeforeMove: function (currentTarget, nextTarget, focusOverlay) {
+                console.log(currentTarget, nextTarget, focusOverlay);
+            },
+            // onAfterMove: function (previousTarget, currentTarget, focusOverlay) {
+            //     console.log(previousTarget, currentTarget, focusOverlay);
+            // },
+            onDestroy: function (focusOverlay) {
+                console.log('de_stoyed');
+            }
         });
-        const foOne = new FocusOverlay('.section-one');
-        const foTwo = new FocusOverlay(sectionTwo, { alwaysActive: true });
+        const foTwo = new FocusOverlay(sectionTwo, {
+            alwaysActive: true
+        });
     </script>
 </body>
 </html>
