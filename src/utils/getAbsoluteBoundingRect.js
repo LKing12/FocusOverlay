@@ -1,25 +1,27 @@
 /**
-* Gist: https://gist.github.com/rgrove/5463265
-*
-* This is a modified, cross-browser version of the native `getBoundingClientRect()`
-* Which returns a bounding rect for _el_ with absolute coordinates corrected for
-* scroll positions.
-*
-* @param {Element} el HTML element
-* @return {Object} Absolute bounding rect for _el_.
-*/
+ * Gist: https://gist.github.com/rgrove/5463265
+ *
+ * This is a modified, cross-browser version of the native `getBoundingClientRect()`
+ * Which returns a bounding rect for _el_ with absolute coordinates corrected for
+ * scroll positions.
+ *
+ * @param {Element} el HTML element
+ * @return {Object} Absolute bounding rect for _el_.
+ */
 export default function getAbsoluteBoundingRect(el) {
     let _ = this,
         doc = document,
         win = window,
         body = doc.body,
-
         // pageXOffset and pageYOffset work everywhere except IE <9.
-        offsetX = win.pageXOffset !== undefined ? win.pageXOffset :
-            (doc.documentElement || body.parentNode || body).scrollLeft,
-        offsetY = win.pageYOffset !== undefined ? win.pageYOffset :
-            (doc.documentElement || body.parentNode || body).scrollTop,
-
+        offsetX =
+            win.pageXOffset !== undefined
+                ? win.pageXOffset
+                : (doc.documentElement || body.parentNode || body).scrollLeft,
+        offsetY =
+            win.pageYOffset !== undefined
+                ? win.pageYOffset
+                : (doc.documentElement || body.parentNode || body).scrollTop,
         rect = el.getBoundingClientRect();
 
     if (el !== body) {

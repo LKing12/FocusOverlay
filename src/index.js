@@ -5,10 +5,10 @@ import getAbsoluteBoundingRect from './utils/getAbsoluteBoundingRect';
 import whichTransitionEvent from './utils/whichTransitionEvent';
 
 /**
-* The plugin constructor
-* @param {Element|String} element The DOM element where plugin is applied
-* @param {Object} options Options passed to the constructor
-*/
+ * The plugin constructor
+ * @param {Element|String} element The DOM element where plugin is applied
+ * @param {Object} options Options passed to the constructor
+ */
 export default class FocusOverlay {
     constructor(element, options) {
         this.active = false;
@@ -19,40 +19,43 @@ export default class FocusOverlay {
         this.timeout = 0;
         this.inScope = false;
         this.transitionEvent = whichTransitionEvent();
-        this.options = extend({
-            // Class added to the focus box
-            class: 'focus-overlay',
-            // Class added while the focus box is active
-            activeClass: 'focus-overlay-active',
-            // Class added while the focus box is animating
-            animatingClass: 'focus-overlay-animating',
-            // Class added to the target element
-            targetClass: 'focus-overlay-target',
-            // z-index of focus box
-            zIndex: 9001,
-            // Duration of the animatingClass (milliseconds)
-            duration: 500,
-            // Removes activeClass after duration
-            inactiveAfterDuration: false,
-            // Tab, Arrow Keys, Enter, Space, Shift, Ctrl, Alt, ESC
-            triggerKeys: [9, 36, 37, 38, 39, 40, 13, 32, 16, 17, 18, 27],
-            // Make focus box inactive when a non specified key is pressed
-            inactiveOnNonTriggerKey: true,
-            // Make focus box inactive when a user clicks
-            inactiveOnClick: true,
-            // Force the box to always stay active. Overrides everything
-            alwaysActive: false,
-            // Reposition focus box on transitionEnd for focused elements (IE10+)
-            watchTransitionEnd: true,
-            // Initialization event
-            onInit: function() {},
-            // Before focus box move
-            onBeforeMove: function() {},
-            // After focus box move
-            onAfterMove: function() {},
-            // After FocusOverlay is destroyed
-            onDestroy: function() {},
-        }, options || {});
+        this.options = extend(
+            {
+                // Class added to the focus box
+                class: 'focus-overlay',
+                // Class added while the focus box is active
+                activeClass: 'focus-overlay-active',
+                // Class added while the focus box is animating
+                animatingClass: 'focus-overlay-animating',
+                // Class added to the target element
+                targetClass: 'focus-overlay-target',
+                // z-index of focus box
+                zIndex: 9001,
+                // Duration of the animatingClass (milliseconds)
+                duration: 500,
+                // Removes activeClass after duration
+                inactiveAfterDuration: false,
+                // Tab, Arrow Keys, Enter, Space, Shift, Ctrl, Alt, ESC
+                triggerKeys: [9, 36, 37, 38, 39, 40, 13, 32, 16, 17, 18, 27],
+                // Make focus box inactive when a non specified key is pressed
+                inactiveOnNonTriggerKey: true,
+                // Make focus box inactive when a user clicks
+                inactiveOnClick: true,
+                // Force the box to always stay active. Overrides everything
+                alwaysActive: false,
+                // Reposition focus box on transitionEnd for focused elements (IE10+)
+                watchTransitionEnd: true,
+                // Initialization event
+                onInit: function() {},
+                // Before focus box move
+                onBeforeMove: function() {},
+                // After focus box move
+                onAfterMove: function() {},
+                // After FocusOverlay is destroyed
+                onDestroy: function() {}
+            },
+            options || {}
+        );
 
         /**
          * Setup main scoped element. First expect a DOM element, then
@@ -77,9 +80,9 @@ export default class FocusOverlay {
     }
 
     /**
-    * Initialize the plugin instance. Add event listeners
-    * to the window depending on which options are enabled.
-    */
+     * Initialize the plugin instance. Add event listeners
+     * to the window depending on which options are enabled.
+     */
     init() {
         if (this.options.alwaysActive) {
             this.active = true;
@@ -119,10 +122,14 @@ export default class FocusOverlay {
                 const activeEl = document.activeElement;
 
                 /**
-                * Check if the active element is an iframe, is part of
-                * the scope, and that focusOverlay is currently active.
-                */
-                if (activeEl instanceof HTMLIFrameElement && this.scopedEl.contains(activeEl) && this.active === true) {
+                 * Check if the active element is an iframe, is part of
+                 * the scope, and that focusOverlay is currently active.
+                 */
+                if (
+                    activeEl instanceof HTMLIFrameElement &&
+                    this.scopedEl.contains(activeEl) &&
+                    this.active === true
+                ) {
                     this.moveFocusBox(activeEl);
                 }
             }, 5);
@@ -157,7 +164,10 @@ export default class FocusOverlay {
         if (this.nextTarget != null) {
             this.previousTarget = this.nextTarget;
             this.previousTarget.classList.remove(this.options.targetClass);
-            this.previousTarget.removeEventListener(this.transitionEvent, this.moveFocusBox);
+            this.previousTarget.removeEventListener(
+                this.transitionEvent,
+                this.moveFocusBox
+            );
         }
     }
 
@@ -181,11 +191,15 @@ export default class FocusOverlay {
             if (focusedEl.getAttribute('data-focus') !== null) {
                 const focusSelector = focusedEl.getAttribute('data-focus');
 
-                this.nextTarget = document.querySelector(`[data-focus='${focusSelector}']`);
+                this.nextTarget = document.querySelector(
+                    `[data-focus='${focusSelector}']`
+                );
 
-            // If the focused element has data-focus-label then focus the associated label
+                // If the focused element has data-focus-label then focus the associated label
             } else if (focusedEl.getAttribute('data-focus-label') !== null) {
-                const associatedEl = document.querySelector(`[for='${focusedEl.id}']`);
+                const associatedEl = document.querySelector(
+                    `[for='${focusedEl.id}']`
+                );
 
                 // If there is no label pointing directly to the focused element, then point to the wrapping label
                 if (associatedEl.length < 1) {
@@ -194,11 +208,11 @@ export default class FocusOverlay {
 
                 this.nextTarget = associatedEl;
 
-            // If the focused element has data-ignore then stop
+                // If the focused element has data-ignore then stop
             } else if (focusedEl.getAttribute('data-focus-ignore') !== null) {
                 return;
 
-            // If none of the above is true then set the target as the currently focused element
+                // If none of the above is true then set the target as the currently focused element
             } else {
                 this.nextTarget = focusedEl;
             }
@@ -215,17 +229,20 @@ export default class FocusOverlay {
              * if the focused element has a long transition on focus.
              */
             if (this.transitionEvent && this.options.watchTransitionEnd) {
-                this.nextTarget.addEventListener(this.transitionEvent, this.moveFocusBox);
+                this.nextTarget.addEventListener(
+                    this.transitionEvent,
+                    this.moveFocusBox
+                );
             }
 
             this.options.onBeforeMove(currentEl, this.nextTarget, this);
             this.moveFocusBox(this.nextTarget);
 
-        // If the focused element is a child of the main element but alwaysActive do nothing
+            // If the focused element is a child of the main element but alwaysActive do nothing
         } else if (this.options.alwaysActive) {
             this.inScope = false;
 
-        // If the element focused is not a child of the main element stop being active
+            // If the element focused is not a child of the main element stop being active
         } else {
             this.inScope = false;
             this.stop();
@@ -295,8 +312,10 @@ export default class FocusOverlay {
         this.focusBox.parentNode.removeChild(this.focusBox);
 
         // Remove any extra classes given to other elements if they exist
-        (this.previousTarget != null) && this.previousTarget.classList.remove(this.options.targetClass);
-        (this.nextTarget != null) && this.nextTarget.classList.remove(this.options.targetClass);
+        this.previousTarget != null &&
+            this.previousTarget.classList.remove(this.options.targetClass);
+        this.nextTarget != null &&
+            this.nextTarget.classList.remove(this.options.targetClass);
 
         // Remove event listeners
         window.removeEventListener('focusin', this.onFocusHandler, true);

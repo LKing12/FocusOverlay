@@ -1,9 +1,8 @@
 // https://tc39.github.io/ecma262/#sec-array.prototype.includes
-export default (function () {
+export default (function() {
     if (!Array.prototype.includes) {
         Object.defineProperty(Array.prototype, 'includes', {
-            value: function (valueToFind, fromIndex) {
-
+            value: function(valueToFind, fromIndex) {
                 if (this == null) {
                     throw new TypeError('"this" is null or not defined');
                 }
@@ -31,7 +30,13 @@ export default (function () {
                 var k = Math.max(n >= 0 ? n : len - Math.abs(n), 0);
 
                 function sameValueZero(x, y) {
-                    return x === y || (typeof x === 'number' && typeof y === 'number' && isNaN(x) && isNaN(y));
+                    return (
+                        x === y ||
+                        (typeof x === 'number' &&
+                            typeof y === 'number' &&
+                            isNaN(x) &&
+                            isNaN(y))
+                    );
                 }
 
                 // 7. Repeat, while k < len

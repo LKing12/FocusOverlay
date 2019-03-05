@@ -1,5 +1,7 @@
 export default function extend() {
-    var obj, name, copy,
+    var obj,
+        name,
+        copy,
         target = arguments[0] || {},
         i = 1,
         length = arguments.length;
