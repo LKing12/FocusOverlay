@@ -11,14 +11,10 @@
             }
         ]
     ],
-    "plugins": [
-        ["@babel/plugin-transform-object-assign"]
-    ],
+    "plugins": [["@babel/plugin-transform-object-assign"]],
     "env": {
         "test": {
-            "presets": [
-                "@babel/preset-env"
-            ]
+            "presets": ["@babel/preset-env"]
         }
     }
 }
