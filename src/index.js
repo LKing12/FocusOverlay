@@ -197,12 +197,12 @@ export default class FocusOverlay {
 
                 // If the focused element has data-focus-label then focus the associated label
             } else if (focusedEl.getAttribute('data-focus-label') !== null) {
-                const associatedEl = document.querySelector(
+                let associatedEl = document.querySelector(
                     `[for='${focusedEl.id}']`
                 );
 
                 // If there is no label pointing directly to the focused element, then point to the wrapping label
-                if (associatedEl.length < 1) {
+                if (associatedEl === null) {
                     associatedEl = focusedEl.closest('label');
                 }
 
