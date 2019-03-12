@@ -1,6 +1,6 @@
 {
   "name": "focus-overlay",
-  "version": "0.9.6",
+  "version": "0.9.7",
   "description": "Plugin for creating overlays on focused elements.",
   "license": "MIT",
   "engines": {
