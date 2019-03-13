@@ -13,38 +13,39 @@ const preamble = `/* Focus Overlay - v${version}
 * Copyright (c) ${new Date().getFullYear()} ${author}. Licensed ${license} */`;
 
 export default {
-    input: './src/index.js',
-    output: [
-        {
-            file: `${dist}${name}.cjs.js`,
-            format: 'cjs',
-            sourcemap
-        },
-        {
-            file: `${dist}${name}.esm.js`,
-            format: 'esm',
-            sourcemap
-        },
-        {
-            name: 'FocusOverlay',
-            file: `${dist}${name}.js`,
-            format: 'umd',
-            sourcemap
+  input: './src/index.js',
+  output: [
+    {
+      file: `${dist}${name}.cjs.js`,
+      format: 'cjs',
+      sourcemap
+    },
+    {
+      file: `${dist}${name}.esm.js`,
+      format: 'esm',
+      sourcemap
+    },
+    {
+      name: 'FocusOverlay',
+      file: `${dist}${name}.js`,
+      format: 'umd',
+      sourcemap
+    }
+  ],
+  plugins: [
+    resolve(),
+    babel({
+      exclude: 'node_modules/**'
+    }),
+    production &&
+      terser({
+        output: {
+          preamble
         }
-    ],
-    plugins: [
-        resolve(),
-        babel({
-            exclude: 'node_modules/**'
-        }),
-        production && terser({
-            output: {
-                preamble
-            }
-        }),
-        postcss({
-            extract: `${dist}${name}.css`,
-            minimize: true
-        })
-    ]
-}
+      }),
+    postcss({
+      extract: `${dist}${name}.css`,
+      minimize: true
+    })
+  ]
+};

@@ -4,17 +4,17 @@
  * @return {String} Browser's supported transitionend type
  */
 export default function whichTransitionEvent() {
-    const el = document.createElement('fakeelement');
-    const transitions = {
-        transition: 'transitionend',
-        OTransition: 'oTransitionEnd',
-        MozTransition: 'transitionend',
-        WebkitTransition: 'webkitTransitionEnd'
-    };
+  const el = document.createElement('fakeelement');
+  const transitions = {
+    transition: 'transitionend',
+    OTransition: 'oTransitionEnd',
+    MozTransition: 'transitionend',
+    WebkitTransition: 'webkitTransitionEnd'
+  };
 
-    for (let t in transitions) {
-        if (el.style[t] !== undefined) {
-            return transitions[t];
-        }
+  for (let t in transitions) {
+    if (el.style[t] !== undefined) {
+      return transitions[t];
     }
+  }
 }
