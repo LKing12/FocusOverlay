@@ -1,5 +1,5 @@
 import './styles.css';
-import './polyfills/arrayIncludes';
+import './polyfills/closest';
 import extend from './utils/extend';
 import getAbsoluteBoundingRect from './utils/getAbsoluteBoundingRect';
 import whichTransitionEvent from './utils/whichTransitionEvent';

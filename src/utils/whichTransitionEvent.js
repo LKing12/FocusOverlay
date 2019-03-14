@@ -3,7 +3,7 @@
  * https://davidwalsh.name/css-animation-callback
  * @return {String} Browser's supported transitionend type
  */
-export default function whichTransitionEvent() {
+export default function() {
   const el = document.createElement('fakeelement');
   const transitions = {
     transition: 'transitionend',
